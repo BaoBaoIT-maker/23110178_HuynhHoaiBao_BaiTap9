@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Hồ Sơ | Demo 2</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+    <div class="container">
+        <div class="card shadow-lg rounded-4">
+            <div class="card-body">
+                <h1 class="mb-4 text-primary">Trang Hồ Sơ Người Dùng</h1>
+
+                <h4 class="mb-3">Thông tin người dùng</h4>
+                <p>Tên đăng nhập: 
+                    <strong><span sec:authentication="name">Tên người dùng</span></strong>
+                </p>
+                <p>Quyền hạn (Roles): 
+                    <span class="badge bg-info">
+                        <span sec:authentication="principal.authorities">ROLE</span>
+                    </span>
+                </p>
+
+                <!-- Chỉ hiển thị khi user là ADMIN -->
+                <div sec:authorize="hasRole('ADMIN')" class="alert alert-danger mt-4">
+                    <h5 class="alert-heading">Tính năng dành cho Quản trị viên</h5>
+                    <p>Bạn có quyền <strong>ROLE_ADMIN</strong> để thực hiện các thao tác quản trị.</p>
+                    <p>
+                        <a href="/api/users/all" class="btn btn-outline-danger btn-sm">
+                            Xem danh sách Users (API)
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Chỉ hiển thị khi user là USER -->
+                <div sec:authorize="hasRole('USER')" class="alert alert-success mt-3">
+                    <p>Bạn có quyền <strong>ROLE_USER</strong>.</p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="mt-4">
+                    <a href="/home" class="btn btn-outline-primary me-2">Về Trang chủ</a>
+                    <a href="/logout" class="btn btn-outline-secondary">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
